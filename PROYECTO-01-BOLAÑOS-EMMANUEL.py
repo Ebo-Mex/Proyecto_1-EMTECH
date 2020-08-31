@@ -1427,4 +1427,7 @@ lifestore_searches = [
     [1033, 95]
 ]
 
-print("we good")
+for sale in lifestore_sales:
+    for id_product in sale:
+        print(id_product)
+    print("----")
