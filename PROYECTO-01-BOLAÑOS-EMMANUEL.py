@@ -91,11 +91,16 @@ def save_to_csv(file_name, list_to_save):
 def didnt_appear(a, x, b, y):
 
     new_list = []
+    # Recorremos las sublistas de a
     for sblst in a:
         c = 0
+        # Recorremos las sublistas de b
         for sblst_2 in b:
+            # Si el elemento de la columna x de a coincide
+            # con la columna y de b, aumenta el contador
             if sblst[x] == sblst_2[y]:
                 c = c + 1
+        # Si el contador es cero, no hubieron coincidencias!
         if c == 0:
             new_list.append([0, sblst[0]])
     return new_list
@@ -103,44 +108,64 @@ def didnt_appear(a, x, b, y):
 
 # Función para regresar solo el nombre del producto
 def prod_name(names):
+    # Encontrar indice que contiene la coma
     product_name_0 = names.find(",")
+    # Si no hay coma, regresar el nombre sin modificar
     if product_name_0 == -1:
-        return product_name_0
+        return names
+    # Regresar el str antes de la coma
     return names[:product_name_0]
 
 
+# Pedimos sus credenciales al usuario (estan al principio del código)
 print("INGRESE USUARIO Y CONTRASEÑA:")
 usr = input("USUARIO:")
 pwrd = input("CONTRASEÑA:")
 kick = 4
 
+# Mientras el usuario y contra sean incorrectas...
 while usr != "admin" or pwrd != "123":
     if usr == "cliente" and pwrd == "abc":
+        # Si no tiene login de admin, se le saca del programa
         print("Lo siento, no tienes permiso para acceder")
         quit()
+    # El contador nos permite conocer la cantidad de intentos del usuario
     kick -= 1
+    # Si te acabas los intentos, afuera
     if kick == 0:
         print("\n\nINTENTOS AGOTADOS\nSaliendo de programa...")
         quit()
+    # Aviso cuando solo queda 1 intento
     elif kick == 1:
         print("\nUSUARIO Y CONTRASEÑA INCORRECTOS\n", kick, "intento restante")
+    # Avisa que queda más de un intento
     else:
         print("\nUSUARIO Y CONTRASEÑA INCORRECTOS\n", kick, "intentos restantes")
+    # Pregunta si desea volver a intentarlo
     _try = input("\n¿Volver a intentar? (si/no): ")
+    # Entra en bucle para revisar si el usuario quiere volver a intentar
+    # el ingreso de credenciales
     while 1:
+        # Sal del bucle y vuelve a intentarlo
         if _try == "si":
             usr = input("USUARIO:")
             pwrd = input("CONTRASEÑA:")
             break
+        # Sal del programa, no tiene las credenciales
         elif _try == "no":
             print("Saliendo de programa...")
             quit()
+        # Si el usuario ingresa un valor no valido, repitele que debe hacer
         else:
             _try = input("Solo escriba 'si' o 'no', por favor:")
 
-print("~~~~~BIENVENIDO ADMIN~~~~~")
-
+# Si llega a este punto, sabemos que es el admin
+print("""
+         ~~~~~BIENVENIDO ADMIN~~~~~
+    """)
+# Buble infinito para ejecutar el programa
 while 1:
+    # Menú que muestra todas las opciones disponibles
     print("""
                     MENÚ:
     1)      VER TODO
@@ -157,16 +182,21 @@ while 1:
     12)     SALIR
     """)
 
+    # Pide al admin que ingrese un numero
     op = int(input("INGRESE SOLO EL NÚMERO DE LA OPCIÓN QUE DESEA VER\n"))
 
+    # Si el numero está fuera de rango, vuelve a pedir input
     while op >= 13 or op <= 0:
         op = int(input("INGRESE SOLO EL NÚMERO DE LA OPCIÓN QUE DESEA VER\n"))
 
+    # Instrucción para salir del programa
     if op == 12:
         quit()
 
+    # Preguntar al admin si desea guardar la información
     save = input("¿DESEA GUARDAR LOS RESULTADOS VISUALIZADOS? (si/no)\n")
 
+    # Bucle para asegurar que se ingresa un valor válido
     while 1:
         if save == "si":
             break
@@ -187,20 +217,20 @@ while 1:
     producto_no_vendido = didnt_appear(ls_products, 0, ls_sales, 1)
     # Agregar productos no vendidos al final de la lista
     total_vendidos_y_ids = total_vendidos_y_ids + producto_no_vendido
-    # Cambiar ids a nombres para hacer amigable a la lectura
-    for id_lst in total_vendidos_y_ids:
-        for prd_lst in ls_products:
-            if id_lst[1] == prd_lst[0]:
-                id_lst[1] = prod_name(prd_lst[1])
     if op == 1 or op == 2:
         # OUTPUT
+        # Cambiar ids a nombres para hacer amigable a la lectura
+        for id_lst in total_vendidos_y_ids:
+            for prd_lst in ls_products:
+                if id_lst[1] == prd_lst[0]:
+                    id_lst[1] = prod_name(prd_lst[1])
         # Crea la lista final con solo 50 valores
         if len(total_vendidos_y_ids) <= 49:
             print("\nNo se cuenta con 50 productos o más, mostrando", len(total_vendidos_y_ids), "productos")
             final_total_vendidos_y_ids = total_vendidos_y_ids
         else:
             final_total_vendidos_y_ids = total_vendidos_y_ids[0:50]
-            print("\n\nLista de productos vendidos (mayor a menor)")
+        print("\n\nLista de productos vendidos (mayor a menor)")
         for out_vendidos_ids in final_total_vendidos_y_ids:
             if out_vendidos_ids[0] >= 2:
                 print(out_vendidos_ids[1], "se ha vendido", out_vendidos_ids[0], "veces")
@@ -223,13 +253,13 @@ while 1:
     # Lista de producto no buscado
     producto_no_buscado = didnt_appear(ls_products, 0, ls_searches, 1)
     total_busqueda_y_ids = total_busqueda_y_ids + producto_no_buscado
-    # Cambiar ids a nombres para hacer amigable a la lectura
-    for id_lst in total_busqueda_y_ids:
-        for prd_lst in ls_products:
-            if id_lst[1] == prd_lst[0]:
-                id_lst[1] = prod_name(prd_lst[1])
     if op == 1 or op == 3:
         # OUTPUT
+        # Cambiar ids a nombres para hacer amigable a la lectura
+        for id_lst in total_busqueda_y_ids:
+            for prd_lst in ls_products:
+                if id_lst[1] == prd_lst[0]:
+                    id_lst[1] = prod_name(prd_lst[1])
         # Crea la lista final con solo 100 valores
         if len(total_busqueda_y_ids) <= 99:
             print("\nNo se cuenta con 100 productos o más, mostrando", len(total_busqueda_y_ids), "productos")
@@ -245,7 +275,7 @@ while 1:
             else:
                 print(out_buscados_ids[1], "no se ha buscado")
         if save == "si":
-            # Guarda resultado en outputs/test_0.csv
+            # Guarda resultado en outputs/
             final_total_buscados_y_ids = [["Búsquedas", "Nombre del producto"]] + final_total_buscados_y_ids
             save_to_csv("100_mas_buscados", final_total_buscados_y_ids)
 
@@ -314,7 +344,7 @@ while 1:
             # Si id se encuentra en lista de ventas
             # aumentar contador
             if search[1] in ids[1]:
-                tmp += + 1
+                tmp += 1
         # Agregar categoría y cuenta de búsquedas a la lista
         # reiniciar contador
         search_per_cat.append([ids[0], tmp])
