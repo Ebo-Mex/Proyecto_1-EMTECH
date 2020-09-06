@@ -6,8 +6,9 @@ lifestore-sales = [id_sale, id_product, score (from 1 to 5), date, refund]
 lifestore-products = [id_product, name, price, category, stock]
 """
 
-# CAMBIAR LOS LAMBDA!
-# FINISH 1.2.2
+# Left to do:
+#   Login
+#   Simple menu to access the info <-- keep it simple!
 
 # importa las listas con los datos
 from lifestore_file import lifestore_products as ls_products
@@ -393,11 +394,34 @@ highlight_month = []
 for list_i in income_per_month:
     if list_i[1] > prom_mensual:
         highlight_month.append(list_i)
-
+# Ordenar mejores meses de mayor a menor
+highlight_sorted = sort_by_n_element(highlight_month, 1, rev=True)
+sort_highlight_month = []
+for i in highlight_sorted:
+    for n in highlight_month:
+        if i == n[1]:
+            sort_highlight_month.append(n)
+"""
 print("\nIngreso anual:", anual_income, "\nVentas totales:",  total_sells)
 
 print("\nPromedio mensual de ventas:", prom_mensual)
 
-print("\nIngresos y ventas por mes\n", income_per_month)
+print("\nVentas por mes:")
+for element_list in income_per_month:
+    if element_list[1] != 1:
+        print("En el mes", element_list[2], "se tuvo una venta de",
+              element_list[1], "productos y un ingreso de", element_list[0])
+    elif element_list[1] == 0:
+        print("En el mes", element_list[2], "no se vendió producto")
+    else:
+        print("En el mes", element_list[2], "se tuvo una venta de",
+              element_list[1], "producto y un ingreso de", element_list[0])
 
-print("\nMejores meses\n", highlight_month)
+print("\nMeses con ventas por encima del promedio:")
+for element_list in sort_highlight_month:
+    print("En el mes", element_list[2], "se tuvo una venta de",
+          element_list[1], "productos y un ingreso de", element_list[0])
+# Guardar a csv
+income_per_month = [["Ingreso", "Productos vendidos", "Mes"]] + income_per_month
+save_to_csv("ingresos_por_mes", income_per_month)
+"""
